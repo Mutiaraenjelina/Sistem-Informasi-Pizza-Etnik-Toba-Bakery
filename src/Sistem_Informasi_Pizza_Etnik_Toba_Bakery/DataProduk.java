@@ -99,7 +99,8 @@ public class DataProduk extends Produk implements Aksi{
                 categories.add(category);
                 optionNumber++;
             }
-            System.out.println(optionNumber + ". ALL");
+            System.out.println(optionNumber + ". Semua");
+            System.out.println((optionNumber+1) + ". Keluar");
 
             // Mendapatkan input kategori dari pengguna
             System.out.print("Pilih: ");
@@ -110,7 +111,10 @@ public class DataProduk extends Produk implements Aksi{
                 displayProductsForCategory(selectedCategory);
             } else if (selectedOption == optionNumber) {
                 displayAllProducts();
-            } else {
+            } else if( selectedOption == (optionNumber+1)){
+                return;
+            } 
+            else {
                 System.out.println("Pilihan tidak valid.");
             }
 
@@ -151,7 +155,7 @@ public class DataProduk extends Produk implements Aksi{
 
         switch (option) {
             case 1:
-                return;  // Kembali ke memilih kategori produk
+                displayforuser();
             case 2:
                 displayAllProducts();  // Kembali ke menu utama
                 return;
@@ -246,8 +250,8 @@ public void update() {
 
                 while (continueUpdating) {
                     System.out.println("Pilih Opsi untuk Mengubah:");
-                    System.out.println("1. Ubah semua atribut dari kode " + kodeToUpdate);
-                    System.out.println("2. Pilih atribut yang ingin diubah");
+                    System.out.println("1. Edit semua atribut dari kode" + kodeToUpdate);
+                    System.out.println("2. Edit salah-satu atribut");
                     System.out.println("3. Keluar");
 
                     int updateOption = input.nextInt();
@@ -340,37 +344,45 @@ public void update() {
 @Override
 public void updatestatus() {
     if (!dataproduk.isEmpty()) {
-        display(); // Display existing products for user reference
+        display(); // Menampilkan masukan
 
         try {
             System.out.print("Masukkan kode produk yang ingin di ubah statusnya: ");
             int kodeToUpdate = input.nextInt();
 
-            boolean productFound = false;
+            boolean produkditemukan = false;
             for (Produk p : dataproduk) {
                 if (p.getkode() == kodeToUpdate) {
-                    loopStatus();
-                    p.setstatus(status);
-
-                    productFound = true;
+                    if(p.getstatus()==Status.AKTIF){
+                    p.setstatus(Status.NONAKTIF); }// Mengubah status menjadi NONAKTIF
+                    else if(p.getstatus()==Status.NONAKTIF){
+                        p.setstatus(Status.AKTIF);
+                    }
+                    produkditemukan = true;
                     break;
                 }
             }
-
-            if (productFound) {
-                System.out.println("Status Produk Berhasil diubah");
-            } else {
-                System.out.println("Produk dengan kode " + kodeToUpdate + " tidak ditemuakan.");
+            
+            for (Produk p : dataproduk) {
+                if (p.getkode() == kodeToUpdate) {
+            if (produkditemukan && p.getstatus()==Status.NONAKTIF) {
+                System.out.println("Status Produk Berhasil dinonaktifkan");
+            } else if(produkditemukan && p.getstatus()==Status.AKTIF) {
+              System.out.println("Status Produk Berhasil diaktifkan");
+            }
+            else{
+                  System.out.println("Produk dengan kode " + kodeToUpdate + " tidak ditemukan.");
             }
 
-            display(); // Display updated products
-        } catch (InputMismatchException e) {
-            System.out.println("Masukan tidak sesuai. Silahkan masukkan kode yang sesuai.");
-            input.nextLine(); // Consume invalid input
+            display(); // Menampilkan status yang diperbarui
+        } }}catch (InputMismatchException e) {
+            System.out.println("Produk tidak sesuai. Silakan masukkan kode yang sesuai.");
+            input.nextLine(); // Mengonsumsi input yang tidak valid
         }
     } else {
-        System.out.println("Tidak ada produk yang tersedia untuk diubah statusnya");
+        System.out.println("Tidak ada Produk yang tersedia");
     }
 }
+
 }
 

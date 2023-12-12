@@ -113,8 +113,9 @@ public void update() {
         for (Sertifikat s : datasertifikat) {
             if (s.getkode() == kodeToUpdate) {
                 System.out.println("Pilih tindakan yang ingin dilakukan:");
-                System.out.println("1. Update semua atribut");
-                System.out.println("2. Update salah-satu atribut");
+                System.out.println("1. Edit semua atribut");
+                System.out.println("2. Edit salah-satu atribut");
+                System.out.println("3. Keluar");
 
                 int opsiUpdate = input.nextInt();
                 input.nextLine(); // Membersihkan newline setelah nextInt()
@@ -126,6 +127,8 @@ public void update() {
                     case 2:
                         updateSingleAttribute(s);
                         break;
+                    case 3:
+                            break;
                     default:
                         System.out.println("Opsi tidak valid.");
                         break;

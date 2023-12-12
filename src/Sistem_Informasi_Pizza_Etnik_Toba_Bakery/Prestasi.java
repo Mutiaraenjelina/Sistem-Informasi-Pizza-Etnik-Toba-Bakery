@@ -14,15 +14,11 @@ public class Prestasi extends Post {
          return "\n========================================="+
                  "\nKode : "+getkode()+
                  "\nJudul : "+getjudul()+
-                 "\nDeskripsi : "+getdeskripsi()+
-                 "\nTanggal Terbit : "+gettanggal_terbit()+
-                 "\n=========================================";
+                 "\nDeskripsi : "+getdeskripsi();
      }
    public String toStringforuser(){
          return "\n========================================="+
                  "\nJudul : "+getjudul()+
-                 "\nDeskripsi : "+getdeskripsi()+
-                 "\nTanggal Terbit : "+gettanggal_terbit()+
-                 "\n=========================================";
+                 "\nDeskripsi : "+getdeskripsi();
      }
 }

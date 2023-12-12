@@ -8,7 +8,7 @@ package Sistem_Informasi_Pizza_Etnik_Toba_Bakery;
  *
  * @author MUTIARA ENJELINA
  */
-public class User {
+public abstract class User {
 protected String  nama, username, password, email, notelp;
 
 public User(){}

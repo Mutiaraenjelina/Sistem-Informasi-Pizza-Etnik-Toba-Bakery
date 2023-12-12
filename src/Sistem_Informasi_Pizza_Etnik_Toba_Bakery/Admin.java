@@ -24,6 +24,17 @@ public class Admin extends User{
             if(hasFail > 0) {
                 System.out.println("===========================");
                 System.out.println("Username atau password tidak cocok !");
+                 // Beri pilihan untuk keluar dari role atau mencoba login lagi
+                System.out.print("Apakah Anda ingin melakukan login lagi? (y/n): ");
+                String response = input.next().toLowerCase();
+
+                if (response.equals("n")) {
+                    System.out.println("Keluar dari role...");
+                    break; //perbaikan
+                    
+                } else if (!response.equals("y")) {
+                    System.out.println("Input tidak valid. Mencoba login lagi.");
+                }
                 
             }
             System.out.println("===========================");
@@ -50,8 +61,8 @@ public class Admin extends User{
         int opsiUtama;
         do {
             System.out.println("Pilihan Update Profil:");
-            System.out.println("1. Update Salah Satu Atribut");
-            System.out.println("2. Update Semua Atribut");
+            System.out.println("1. Edit semua atribut");
+            System.out.println("2. Edit salah-satu atribut");
             System.out.println("3. Keluar");
 
             System.out.print("Masukkan pilihan: ");
@@ -60,10 +71,10 @@ public class Admin extends User{
 
             switch (opsiUtama) {
                 case 1:
-                    updateSatuAtribut();
+                    updateSemuaAtribut();
                     break;
                 case 2:
-                    updateSemuaAtribut();
+                    updateSatuAtribut();
                     break;
                 case 3:
                     System.out.println("Keluar dari Update Profil.");

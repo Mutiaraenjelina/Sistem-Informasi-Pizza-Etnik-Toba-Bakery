@@ -10,51 +10,69 @@ package Sistem_Informasi_Pizza_Etnik_Toba_Bakery;
  */
 import java.util.InputMismatchException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 public class DataPrestasi extends Prestasi implements Aksi{
     Scanner input = new Scanner(System.in).useDelimiter("\n");
     ArrayList<Prestasi> dataprestasi = new ArrayList<>();
     
+    // Fungsi untuk menampilkan tanggal dalam bahasa Indonesia
+    private void displayTanggalIndonesia(Date date) {
+        // Convert Date to LocalDateTime
+        Instant instant = date.toInstant();
+        LocalDateTime waktu = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+        // Format the LocalDateTime using DateTimeFormatter
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("id", "ID"));
+        String waktuFormatted = waktu.format(formatter);
+
+        System.out.println("Tanggal Terbit : " + waktuFormatted);
+    }
+    
     @Override
-    public  void display(){
-        int i =1;
-        if(!dataprestasi.isEmpty()) {
+    public void display() {
+        int i = 1;
+        if (!dataprestasi.isEmpty()) {
             System.out.println("Prestasi Toko : ");
-            Iterator iter = dataprestasi.iterator();
-            System.out.println("===========================");
-            for(Prestasi p : dataprestasi) {
-                System.out.println(i + ". "+ p + "\n");
+            for (Prestasi p : dataprestasi) {
+                System.out.println(i + ". " + p);
+                displayTanggalIndonesia(p.gettanggal_terbit());
+                System.out.println("=========================================");
                 i++;
             }
+        } else {
             System.out.println("===========================");
-        }else {
-           System.out.println("===========================");
-           System.out.println("Prestasi masih kosong");
-           System.out.println("===========================");
-       }
+            System.out.println("Prestasi masih kosong");
+            System.out.println("===========================");
+        }
     }
+
     @Override
-    public void displayforuser(){
+    public void displayforuser() {
         int i = 1;
 
-    if (!dataprestasi.isEmpty()) {
-        System.out.println("Prestasi Toko: ");
-        System.out.println("===========================");
+        if (!dataprestasi.isEmpty()) {
+            System.out.println("Prestasi Toko: ");
 
-        for (Prestasi p : dataprestasi) {
-                System.out.println(i + ". " + p.toStringforuser()+ "\n");
-                i++;    
+            for (Prestasi p : dataprestasi) {
+                System.out.println(i + ". " + p.toStringforuser());
+                displayTanggalIndonesia(p.gettanggal_terbit());
+                System.out.println("=========================================");
+                i++;
             }
-        System.out.println("===========================");
-    } else {
-        System.out.println("===========================");
-        System.out.println("Prestasi masih kosong");
-        System.out.println("===========================");
-    }
+        } else {
+            System.out.println("===========================");
+            System.out.println("Prestasi masih kosong");
+            System.out.println("===========================");
+        }
     }
     
     
@@ -109,8 +127,9 @@ public void update() {
         for (Prestasi p : dataprestasi) {
             if (p.getkode() == kodeToUpdate) {
                 System.out.println("Pilih tindakan yang ingin dilakukan:");
-                System.out.println("1. Update semua atribut");
-                System.out.println("2. Update salah-satu atribut");
+                System.out.println("1. Edit semua atribut");
+                System.out.println("2. Edit salah-satu atribut");
+                System.out.println("3. Keluar");
 
                 int opsiUpdate = input.nextInt();
                 input.nextLine(); // Membersihkan newline setelah nextInt()
@@ -122,6 +141,8 @@ public void update() {
                     case 2:
                         updateSingleAttribute(p);
                         break;
+                    case 3:
+                            break;
                     default:
                         System.out.println("Opsi tidak valid.");
                         break;

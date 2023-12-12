@@ -137,29 +137,44 @@ public void add() {
 public void update() {
     if (!datamasukan.isEmpty()) {
         display(); // Menampilkan masukan
+        System.out.println("Apakah anda ingin mengedit status masukan? (y/n)");
 
         try {
-            System.out.print("Masukkan kode masukan yang ingin dinonaktifkan: ");
-            int kodeToUpdate = input.nextInt();
+            String jawaban = input.next().toLowerCase();
 
-            boolean masukanDitemukan = false;
-            for (Masukan m : datamasukan) {
-                if (m.getkode() == kodeToUpdate) {
-                    m.setstatus(Status.NONAKTIF); // Mengubah status menjadi NONAKTIF
-                    masukanDitemukan = true;
-                    break;
+            if (jawaban.equals("y")) {
+                System.out.print("Masukkan kode masukan yang ingin dikelola: ");
+                int kodeToUpdate = input.nextInt();
+
+                // Mengecek apakah kode masukan tersedia
+                boolean masukanDitemukan = false;
+                for (Masukan m : datamasukan) {
+                    if (m.getkode() == kodeToUpdate) {
+                        masukanDitemukan = true;
+
+                        if (m.getstatus() == Status.AKTIF) {
+                            m.setstatus(Status.NONAKTIF); // Mengubah status menjadi NONAKTIF
+                        } else if (m.getstatus() == Status.NONAKTIF) {
+                            m.setstatus(Status.AKTIF);
+                        }
+
+                        break;
+                    }
                 }
-            }
 
-            if (masukanDitemukan) {
-                System.out.println("Masukan Berhasil di Blokir");
+                if (!masukanDitemukan) {
+                    throw new InputMismatchException("Kode masukan tidak tersedia atau tidak valid.");
+                }
+
+                display(); // Menampilkan status yang diperbarui
+            } else if (jawaban.equals("n")) {
+                // Tidak melakukan apa-apa, kembali ke menu utama
+                System.out.println("Kembali ke menu utama.");
             } else {
-                System.out.println("Masukan dengan kode " + kodeToUpdate + " tidak ditemukan.");
+                System.out.println("Masukkan jawaban yang valid (y/n).");
             }
-
-            display(); // Menampilkan status yang diperbarui
         } catch (InputMismatchException e) {
-            System.out.println("Masukan tidak sesuai. Silakan masukkan kode yang sesuai.");
+            System.out.println(e.getMessage());
             input.nextLine(); // Mengonsumsi input yang tidak valid
         }
     } else {
